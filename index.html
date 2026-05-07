@@ -1,0 +1,958 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<title>ソフトクリーム商品開発 — 5/9 午後授業スライド</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700;900&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --brand:#E85D04;--brand-dark:#c44d03;--brand-soft:#fef0e8;
+    --white:#fff;--bg:#F5F5F5;--text:#1A1A1A;--text-soft:#555;--text-mute:#888;
+    --accent:#FFE600;--accent-warm:#FFB347;
+    --card-shadow:0 2px 8px rgba(0,0,0,.06);
+    --font:'Noto Sans JP','Hiragino Kaku Gothic ProN','Yu Gothic',sans-serif;
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;background:#111;font-family:var(--font);color:var(--text);}
+  deck-stage>section{background:var(--bg);font-family:var(--font);color:var(--text);overflow:hidden;font-size:28px;line-height:1.6;}
+
+  /* Frame */
+  .frame-bar{position:absolute;left:0;right:0;top:0;height:8px;background:var(--brand);}
+  .frame-logo{position:absolute;top:20px;right:32px;color:var(--brand);font-weight:700;font-size:16px;letter-spacing:.02em;}
+  .frame-footer{position:absolute;left:32px;right:32px;bottom:18px;display:flex;justify-content:space-between;align-items:center;font-size:14px;color:var(--text-mute);}
+  .frame-footer .right{font-weight:500;font-variant-numeric:tabular-nums;color:#666;}
+
+  /* Content card */
+  .content{position:absolute;left:48px;right:48px;top:48px;bottom:56px;background:var(--white);border-radius:12px;border-left:4px solid var(--brand);box-shadow:var(--card-shadow);padding:36px 48px 28px;display:flex;flex-direction:column;}
+  .content.sm{padding:28px 44px 24px;}
+  .content.has-badge{padding-left:196px;}
+  .slide-title{font-size:32px;font-weight:700;margin:0 0 16px 0;line-height:1.3;flex-shrink:0;}
+  .slide-title .accent{background:linear-gradient(transparent 62%,var(--accent) 62% 92%,transparent 92%);padding:0 .15em;}
+  .slide-sub{font-size:24px;color:var(--text-soft);margin:-10px 0 16px 0;font-weight:500;}
+
+  /* Cover */
+  .cover{position:absolute;inset:0;background:radial-gradient(1200px 600px at 85% 110%,rgba(232,93,4,.12),transparent 60%),radial-gradient(900px 500px at 10% -10%,rgba(255,230,0,.18),transparent 60%),var(--white);display:flex;flex-direction:column;justify-content:center;padding:72px 88px;}
+  .cover .eyebrow{display:inline-flex;align-items:center;gap:10px;color:var(--brand);font-weight:700;font-size:17px;letter-spacing:.08em;text-transform:uppercase;margin-bottom:24px;}
+  .cover .eyebrow::before{content:"";width:28px;height:3px;background:var(--brand);border-radius:2px;}
+  .cover h1{font-size:58px;font-weight:900;line-height:1.2;margin:0 0 16px 0;}
+  .cover h1 .hl{background:linear-gradient(transparent 60%,var(--accent) 60% 92%,transparent 92%);padding:0 .12em;}
+  .cover .subtitle{font-size:22px;font-weight:500;color:var(--text-soft);line-height:1.55;margin:0 0 32px 0;max-width:900px;}
+  .cover .meta{display:flex;gap:36px;font-size:17px;color:var(--text-soft);font-weight:500;}
+  .cover .meta strong{color:var(--text);font-weight:700;}
+  .cover .proj-badge{position:absolute;right:44px;bottom:44px;background:var(--brand);color:#fff;font-weight:700;font-size:14px;padding:10px 18px;border-radius:999px;letter-spacing:.02em;box-shadow:0 4px 14px rgba(232,93,4,.35);}
+  .cover .logo-block{position:absolute;top:44px;right:44px;text-align:right;font-size:14px;color:var(--text-soft);line-height:1.5;}
+  .cover .logo-block .nm{color:var(--brand);font-weight:700;font-size:15px;}
+
+  /* Time badge */
+  .time-badge{position:absolute;top:52px;left:60px;background:var(--brand);color:#fff;font-weight:700;font-size:22px;padding:9px 18px;border-radius:999px;letter-spacing:.03em;box-shadow:0 3px 10px rgba(232,93,4,.3);z-index:5;}
+
+  /* Boxes */
+  .emphasis-box{background:var(--brand);color:#fff;padding:18px 24px;border-radius:12px;font-weight:700;font-size:26px;line-height:1.5;flex-shrink:0;}
+  .highlight-box{background:var(--accent);color:var(--text);padding:16px 22px;border-radius:10px;font-weight:700;font-size:26px;line-height:1.5;}
+  .note-box{background:var(--brand-soft);border-left:4px solid var(--brand);padding:14px 20px;border-radius:8px;font-size:24px;line-height:1.5;flex-shrink:0;}
+  .quote-box{background:#fafafa;border-left:4px solid var(--accent-warm);padding:18px 24px;border-radius:10px;font-size:24px;line-height:1.6;font-style:italic;color:#333;position:relative;}
+  .quote-box::before{content:"\201C";position:absolute;top:-6px;left:14px;font-size:52px;color:var(--accent-warm);line-height:1;font-family:serif;font-style:normal;}
+
+  /* Image */
+  .img-box{overflow:hidden;border-radius:10px;background:#e8ddd5;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+  .img-box img{width:100%;height:100%;object-fit:cover;display:block;}
+  .img-ph{display:none;flex-direction:column;align-items:center;justify-content:center;gap:6px;width:100%;height:100%;padding:16px;text-align:center;color:#666;}
+  .img-ph .ico{font-size:40px;}
+  .img-ph .lbl{font-size:16px;font-weight:500;}
+
+  /* Tables */
+  .tbl{width:100%;border-collapse:separate;border-spacing:0;font-size:23px;background:#fff;border-radius:10px;overflow:hidden;box-shadow:0 1px 4px rgba(0,0,0,.04);}
+  .tbl th{background:var(--brand);color:#fff;font-weight:700;padding:9px 16px;text-align:left;}
+  .tbl td{padding:9px 16px;border-bottom:1px solid #eee;}
+  .tbl tr:last-child td{border-bottom:none;}
+  .tbl .tc{font-weight:700;color:var(--brand);font-variant-numeric:tabular-nums;white-space:nowrap;}
+  .tbl tr.hi td{background:#fff8f0;font-weight:700;}
+
+  /* Cards */
+  .cards{display:grid;gap:14px;}
+  .cards.c2{grid-template-columns:1fr 1fr;}
+  .cards.c3{grid-template-columns:1fr 1fr 1fr;}
+  .cards.c4{grid-template-columns:1fr 1fr 1fr 1fr;}
+  .card{background:#fff;border:1.5px solid #e5e5e5;border-radius:12px;padding:16px 18px;display:flex;flex-direction:column;gap:8px;}
+  .card.gr{border-color:var(--brand);background:var(--brand-soft);}
+  .card.grf{border-color:var(--brand);background:var(--brand);color:#fff;}
+  .card .num{font-size:22px;font-weight:900;color:var(--brand);}
+  .card .bnum{font-size:44px;font-weight:900;color:var(--brand);line-height:1;}
+  .card .lbl{font-size:22px;color:var(--text-soft);font-weight:500;}
+  .card .ttl{font-size:24px;font-weight:700;line-height:1.3;}
+  .card .body{font-size:22px;color:var(--text-soft);line-height:1.5;}
+  .card .ico{font-size:32px;line-height:1;}
+
+  /* Bullets */
+  .bul{margin:0;padding:0;list-style:none;display:flex;flex-direction:column;gap:10px;}
+  .bul li{position:relative;padding-left:24px;font-size:26px;line-height:1.5;}
+  .bul li::before{content:"";position:absolute;left:4px;top:12px;width:9px;height:9px;background:var(--brand);border-radius:50%;}
+  .bul.sm li{font-size:24px;}
+  .bul li strong{font-weight:700;}
+
+  /* Two-col */
+  .twocol{display:grid;grid-template-columns:1fr 1fr;gap:24px;flex:1;align-items:start;}
+  .twocol.w6{grid-template-columns:1.1fr .9fr;}
+
+  /* Section divider */
+  .sec{position:absolute;inset:0;background:var(--brand);color:#fff;display:flex;flex-direction:column;justify-content:center;padding:0 110px;}
+  .sec .tag{font-size:19px;font-weight:700;letter-spacing:.3em;opacity:.85;margin-bottom:20px;}
+  .sec h2{font-size:100px;font-weight:900;margin:0 0 20px 0;line-height:1;letter-spacing:.02em;}
+  .sec .desc{font-size:30px;font-weight:500;line-height:1.5;max-width:900px;opacity:.95;}
+  .sec::before{content:"";position:absolute;right:-200px;bottom:-200px;width:650px;height:650px;border-radius:50%;background:rgba(255,255,255,.07);}
+  .sec::after{content:"";position:absolute;left:-80px;top:-80px;width:300px;height:300px;border-radius:50%;background:rgba(255,230,0,.16);}
+
+  /* Steps */
+  .steps{display:flex;flex-direction:column;gap:12px;}
+  .step{display:flex;gap:16px;align-items:flex-start;background:#fafafa;border-radius:10px;padding:12px 16px;}
+  .step .n{flex-shrink:0;width:44px;height:44px;border-radius:50%;background:var(--brand);color:#fff;display:flex;align-items:center;justify-content:center;font-weight:900;font-size:22px;}
+  .step .body{font-size:26px;line-height:1.5;padding-top:2px;}
+  .step .body strong{font-weight:700;}
+
+  /* Big statement */
+  .cstage{flex:1;display:flex;flex-direction:column;justify-content:center;align-items:center;gap:20px;text-align:center;}
+  .bigst{font-size:40px;font-weight:900;line-height:1.4;max-width:1000px;}
+  .bigst .hl{background:linear-gradient(transparent 62%,var(--accent) 62% 92%,transparent 92%);padding:0 .1em;}
+  .bigq{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;gap:16px;}
+  .bigq .qm{font-size:160px;font-weight:900;color:var(--brand);line-height:1;text-shadow:6px 6px 0 rgba(232,93,4,.12);}
+  .bigq .qt{font-size:30px;font-weight:700;max-width:800px;line-height:1.5;}
+
+  /* Persona box */
+  .persona{background:var(--brand);color:#fff;border-radius:12px;padding:18px 22px;font-size:21px;line-height:1.7;}
+  .persona .nm{font-size:26px;font-weight:900;display:block;margin-bottom:4px;}
+  .persona ul{margin:6px 0 0 0;padding-left:20px;}
+  .persona ul li{margin:2px 0;}
+
+  /* Vs compare */
+  .vscol{border-radius:12px;padding:20px;display:flex;flex-direction:column;gap:8px;}
+  .vscol.gray{background:#eee;color:var(--text-soft);}
+  .vscol.orng{background:var(--brand);color:#fff;}
+  .vscol .ttl{font-size:26px;font-weight:900;}
+  .vscol .body{font-size:24px;font-weight:500;}
+
+  /* Section head tag */
+  .stag{display:inline-flex;align-items:center;background:var(--brand);color:#fff;font-weight:700;font-size:18px;padding:5px 16px;border-radius:999px;margin-bottom:12px;flex-shrink:0;}
+
+  /* Chip grid */
+  .chips{display:flex;flex-wrap:wrap;gap:10px;}
+  .chip{background:#fff;border:2px solid var(--brand);border-radius:999px;padding:8px 16px;font-size:22px;font-weight:700;color:var(--text);}
+  .chip.alt{background:var(--brand);color:#fff;}
+  .chip.y{background:var(--accent);border-color:#e6cf00;color:var(--text);}
+
+  /* Checklist */
+  .chk{margin:0;padding:0;list-style:none;display:flex;flex-direction:column;gap:10px;}
+  .chk li{display:flex;align-items:flex-start;gap:10px;font-size:26px;line-height:1.5;}
+  .chk li::before{content:"☐";color:var(--brand);font-size:27px;flex-shrink:0;line-height:1.3;}
+
+  /* Worksheet box */
+  .ws{background:#fffbf7;border:2px solid var(--brand);border-radius:12px;padding:18px 22px;font-size:20px;line-height:1.9;}
+  .ws .ws-ttl{font-size:22px;font-weight:900;color:var(--brand);margin-bottom:10px;}
+  .ws .row{border-bottom:1px solid #f0d8c8;padding:4px 0;}
+  .ws .row:last-child{border-bottom:none;}
+  .ws .q{font-weight:700;color:var(--brand-dark);}
+</style>
+</head>
+<body>
+<deck-stage width="1280" height="720">
+
+<!-- 1. 表紙 -->
+<section data-label="表紙">
+<div class="cover">
+  <div class="logo-block"><div class="nm">福岡ECO動物海洋専門学校</div><div>× AQUA ソフトクリーム商品開発PJ</div></div>
+  <div class="eyebrow">5/9 午後授業 — 90分</div>
+  <h1>売れる商品には、<br><span class="hl">理由がある</span></h1>
+  <p class="subtitle">事例から学び、ペルソナを決め、アイデアの種を作る<br>——「好きな動物で、誰かを喜ばせるものを作る」90分</p>
+  <div class="meta">
+    <span><strong>担当</strong> 関口陽介 先生</span>
+    <span><strong>対象</strong> 約70名・12チーム</span>
+    <span><strong>前提</strong> 午前：AQUA社 + 福岡市動植物園オリエン済</span>
+  </div>
+  <div class="proj-badge">ソフトクリーム映えPJ</div>
+</div>
+</section>
+
+<!-- 2. 今日のゴール -->
+<section data-label="今日のゴール">
+<div class="frame-bar"></div><div class="frame-logo">福岡ECO動物海洋専門学校</div>
+<div class="content sm">
+  <div class="slide-title">今日の授業 — <span class="accent">5つのゴール</span></div>
+  <ul class="chk" style="flex:1;justify-content:space-between;">
+    <li>「売れる商品」には理由がある、ということを事例から感じ取れている</li>
+    <li>機械の制約を「壁」ではなく<strong>「遊び場」</strong>として認識できている</li>
+    <li>チームごとに<strong>ペルソナ（誰のための商品か）</strong>が1人に絞られている</li>
+    <li>全員が<strong>1人1案・A4スケッチ</strong>を完成させてTeamsに投稿している（チームで5案）</li>
+    <li><strong>5/23視察</strong>に持っていく3点課題の内容を把握している</li>
+  </ul>
+</div>
+<div class="frame-footer"><span class="left">株式会社ATARAYO</span><span class="right">2 / 37</span></div>
+</section>
+
+<!-- 3. タイムライン -->
+<section data-label="タイムライン">
+<div class="frame-bar"></div><div class="frame-logo">福岡ECO動物海洋専門学校</div>
+<div class="content sm">
+  <div class="slide-title">90分のタイムライン</div>
+  <table class="tbl">
+    <thead><tr><th class="tc" style="width:170px;">時間</th><th>フェーズ</th><th>内容</th></tr></thead>
+    <tbody>
+      <tr><td class="tc">0〜8分</td><td>❶ ウォームアップ</td><td>好きな動物グッズをチームで共有</td></tr>
+      <tr><td class="tc">8〜22分</td><td>❷ 事例ギャラリー</td><td>バズったソフトクリーム5事例をテンポよく紹介</td></tr>
+      <tr><td class="tc">22〜42分</td><td>❸ 事例分析</td><td>「なぜ売れたのか」を3事例で深掘り</td></tr>
+      <tr><td class="tc">42〜55分</td><td>❹ 機械探索</td><td>カルピジャーニ機械 + 金口の逆引き発想</td></tr>
+      <tr><td class="tc">55〜70分</td><td>❺ ペルソナ設定</td><td>「誰のため？」を福岡市動植物園に限定して決める</td></tr>
+      <tr><td class="tc">70〜84分</td><td>❻ アイデア発散</td><td>1人1案・A4スケッチ → チーム内共有</td></tr>
+      <tr class="hi"><td class="tc">84〜90分</td><td>❼ Teams投稿 ＋ 課題確認</td><td>スケッチ撮影投稿 → 3点課題を渡す</td></tr>
+    </tbody>
+  </table>
+  <div class="emphasis-box" style="margin-top:14px;font-size:21px;">今日の重点 → ❸ 事例分析 × ❺ ペルソナ設定 × ❻ アイデア発散。この3フェーズで「<strong>誰のための・何を作るか</strong>」の骨格が決まる</div>
+</div>
+<div class="frame-footer"><span class="left">株式会社ATARAYO</span><span class="right">3 / 37</span></div>
+</section>
+
+<!-- 4. ❶ Section -->
+<section data-label="S-ウォームアップ">
+<div class="sec">
+  <div class="tag">0〜8分</div>
+  <h2>❶</h2>
+  <div class="desc">ウォームアップ<br>「今まで欲しかった動物グッズ・食べ物は？」</div>
+</div>
+</section>
+
+<!-- 5. ウォームアップ内容 -->
+<section data-label="ウォームアップ内容">
+<div class="frame-bar"></div><div class="frame-logo">福岡ECO動物海洋専門学校</div>
+<div class="time-badge">0〜8分</div>
+<div class="content sm has-badge">
+  <div class="slide-title">チームで話してみよう</div>
+  <div class="emphasis-box" style="margin-bottom:16px;font-size:22px;">今まで買った・欲しいと思った動物グッズや動物モチーフの食べ物を1人1つ。<strong>「なぜ欲しかったか」</strong>も一言で！</div>
+  <div class="steps" style="margin-bottom:16px;">
+    <div class="step"><div class="n">1</div><div class="body">1人30秒でチーム内シェア（全員が必ず話す）</div></div>
+    <div class="step"><div class="n">2</div><div class="body">全体から2〜3名に発表</div></div>
+  </div>
+  <div class="note-box" style="margin-top:auto;">💡 「なぜ欲しかったか」を自然に答えられた——それが今日の核心。売れる商品には必ず<strong>「なぜ買うのか」の理由</strong>がある。</div>
+</div>
+<div class="frame-footer"><span class="left">株式会社ATARAYO</span><span class="right">5 / 37</span></div>
+</section>
+
+<!-- 6. ❷ Section -->
+<section data-label="S-事例ギャラリー">
+<div class="sec">
+  <div class="tag">8〜22分</div>
+  <h2>❷</h2>
+  <div class="desc">バズったソフトクリーム<br>5事例ギャラリー</div>
+</div>
+</section>
+
+<!-- 7. 事例① ペンギンソフト -->
+<section data-label="事例①ペンギンソフト">
+<div class="frame-bar"></div><div class="frame-logo">福岡ECO動物海洋専門学校</div>
+<div class="time-badge">事例 ①</div>
+<div class="content sm has-badge">
+  <div class="slide-title">すみだ水族館「ペンギンソフト」— 東京スカイツリータウン</div>
+  <div class="twocol">
+    <div class="img-box" style="height:310px;">
+      <img src="https://images.microcms-assets.io/assets/218fe239b5e04e63b5e1c6e743e86224/84e3df295616488d9ffe073301f91b7b/penguinsoft.jpeg" alt="ペンギンソフト" onerror="this.style.display='none';this.nextElementSibling.style.display='flex';">
+      <div class="img-ph"><div class="ico">🐧</div><div class="lbl">ペンギンソフト写真</div></div>
+    </div>
+    <div style="display:flex;flex-direction:column;gap:12px;">
+      <div class="card gr"><div class="num">価格</div><div class="ttl" style="font-size:28px;">550円（税込）</div></div>
+      <div class="card"><div class="num">素材</div><div class="body">竹炭で黒を表現した<strong>白黒2色・塩バニラ</strong>ソフト</div></div>
+      <div class="emphasis-box" style="font-size:21px;">🐧 マゼランペンギンの白黒を再現<br>→「かわいすぎて食べられない」投稿が続出</div>
+    </div>
+  </div>
+</div>
+<div class="frame-footer"><span class="left">株式会社ATARAYO</span><span class="right">7 / 37</span></div>
+</section>
+
+<!-- 8. 事例② おしりソフト -->
+<section data-label="事例②おしりソフト">
+<div class="frame-bar"></div><div class="frame-logo">福岡ECO動物海洋専門学校</div>
+<div class="time-badge">事例 ②</div>
+<div class="content sm has-badge">
+  <div class="slide-title">旭山動物園「おしりソフトクリーム」— 北海道・旭川</div>
+  <div class="twocol">
+    <div class="img-box" style="height:310px;background:#f0e8e0;">
+      <div class="img-ph" style="display:flex;"><div class="ico">🐻‍❄️</div><div class="lbl">おしりソフト写真<br>（授業前に差し替え）</div></div>
+    </div>
+    <div style="display:flex;flex-direction:column;gap:12px;">
+      <div class="card gr"><div class="num">価格</div><div class="ttl" style="font-size:28px;">450円</div></div>
+      <div class="card"><div class="num">素材</div><div class="body">北海道産生乳バニラ＋<strong>ホッキョクグマが頭から刺さったクッキー</strong></div></div>
+      <div class="emphasis-box" style="font-size:21px;">🐻‍❄️ 「クマが逆さにダイブ！」<br>クッキー単体がグッズとして販売されるほどの人気に</div>
+    </div>
+  </div>
+</div>
+<div class="frame-footer"><span class="left">株式会社ATARAYO</span><span class="right">8 / 37</span></div>
+</section>
+
+<!-- 9. 事例③ 芋んぶらん -->
+<section data-label="事例③芋んぶらん">
+<div class="frame-bar"></div><div class="frame-logo">福岡ECO動物海洋専門学校</div>
+<div class="time-badge">事例 ③</div>
+<div class="content sm has-badge">
+  <div class="slide-title">三芳PA「川越芋んぶらんソフト」— 埼玉・関越道</div>
+  <div class="twocol">
+    <div class="img-box" style="height:310px;background:#f5ede0;">
+      <div class="img-ph" style="display:flex;"><div class="ico">🍠</div><div class="lbl">芋んぶらんソフト写真<br>（授業前に差し替え）</div></div>
+    </div>
+    <div style="display:flex;flex-direction:column;gap:12px;">
+      <div class="card gr"><div class="num">価格</div><div class="ttl" style="font-size:28px;">650円</div></div>
+      <div class="card"><div class="num">素材</div><div class="body">川越産サツマイモの<strong>モンブランクリームをタワーに積み上げ</strong></div></div>
+      <div class="emphasis-box" style="font-size:21px;">🍠 テレビ露出後「このSAに寄るためだけに高速に乗る」<br>地産地消 × 映えの組み合わせ</div>
+    </div>
+  </div>
+</div>
+<div class="frame-footer"><span class="left">株式会社ATARAYO</span><span class="right">9 / 37</span></div>
+</section>
+
+<!-- 10. 事例④ クロミニオン -->
+<section data-label="事例④クロミニオン">
+<div class="frame-bar"></div><div class="frame-logo">福岡ECO動物海洋専門学校</div>
+<div class="time-badge">事例 ④</div>
+<div class="content sm has-badge">
+  <div class="slide-title">USJ「ミニオン・ソフトクリームフラッペ」— 大阪</div>
+  <div class="twocol">
+    <div class="img-box" style="height:310px;">
+      <img src="https://www.usj.co.jp/tridiondata/usj/ja/jp/files/images/gds-images/usj-gds-minion-dessert-and-drink-bar-set-gallery-b.jpg" alt="ミニオンフード" onerror="this.style.display='none';this.nextElementSibling.style.display='flex';">
+      <div class="img-ph"><div class="ico">🟡</div><div class="lbl">ミニオンフード写真</div></div>
+    </div>
+    <div style="display:flex;flex-direction:column;gap:12px;">
+      <div class="card gr"><div class="num">価格</div><div class="ttl" style="font-size:28px;">850円〜</div></div>
+      <div class="card"><div class="num">素材</div><div class="body">バニラソフト × イチゴソース × 氷のフラッペ。<strong>キャラクターカラーで統一</strong></div></div>
+      <div class="emphasis-box" style="font-size:21px;">🟡 「850円でも世界観ごと体験できる」設計<br>→ 写真が SNS で量産される仕組み</div>
+    </div>
+  </div>
+</div>
+<div class="frame-footer"><span class="left">株式会社ATARAYO</span><span class="right">10 / 37</span></div>
+</section>
+
+<!-- 11. 事例⑤ 黒塩ソフト -->
+<section data-label="事例⑤黒塩ソフト">
+<div class="frame-bar"></div><div class="frame-logo">福岡ECO動物海洋専門学校</div>
+<div class="time-badge">事例 ⑤</div>
+<div class="content sm has-badge">
+  <div class="slide-title">来島海峡SA「佐多岬 黒め塩ソフト」— 愛媛・しまなみ海道</div>
+  <div class="twocol">
+    <div class="img-box" style="height:310px;">
+      <img src="https://www.jb-highway.co.jp/assets/img_entry/4513378fbebf2a2bd946b93c1c8baf03d4f3dbaf.jpg" alt="黒塩ソフト" onerror="this.style.display='none';this.nextElementSibling.style.display='flex';">
+      <div class="img-ph"><div class="ico">🌊</div><div class="lbl">黒め塩ソフト写真</div></div>
+    </div>
+    <div style="display:flex;flex-direction:column;gap:12px;">
+      <div class="card gr"><div class="num">価格</div><div class="ttl" style="font-size:28px;">500円</div></div>
+      <div class="card"><div class="num">素材</div><div class="body">漁師が海水と磯の藻（くろめ）から手作りした<strong>藻塩</strong>使用</div></div>
+      <div class="emphasis-box" style="font-size:21px;">🌊 「500円のソフトにこれだけのストーリー」<br>グルメ系アカウントで拡散 → サイクリスト旅と融合</div>
+    </div>
+  </div>
+</div>
+<div class="frame-footer"><span class="left">株式会社ATARAYO</span><span class="right">11 / 37</span></div>
+</section>
+
+<!-- 12. ❸ Section -->
+<section data-label="S-なぜ売れるのか">
+<div class="sec">
+  <div class="tag">22〜42分</div>
+  <h2>❸</h2>
+  <div class="desc">「なぜ売れるのか」を<br>3事例で分析する</div>
+</div>
+</section>
+
+<!-- 13. 分析①問い USJ バタービール -->
+<section data-label="分析①問い-バタービール">
+<div class="frame-bar"></div><div class="frame-logo">福岡ECO動物海洋専門学校</div>
+<div class="content sm">
+  <div class="stag">事例分析 ①</div>
+  <div class="bigq">
+    <div class="qm">?</div>
+    <div class="qt">USJの<strong>バタービール</strong>って知ってる？<br>値段はいくらだと思う？なぜ並んでまで買う人がいると思う？<br><span style="font-size:22px;font-weight:500;color:var(--text-soft);">→ 隣の人に一言言ってみて</span></div>
+  </div>
+</div>
+<div class="frame-footer"><span class="left">株式会社ATARAYO</span><span class="right">13 / 37</span></div>
+</section>
+
+<!-- 14. 分析①答え -->
+<section data-label="分析①答え-バタービール">
+<div class="frame-bar"></div><div class="frame-logo">福岡ECO動物海洋専門学校</div>
+<div class="content sm">
+  <div class="stag">事例分析 ① USJ バタービール</div>
+  <div class="twocol" style="gap:20px;align-items:stretch;">
+    <div style="display:flex;flex-direction:column;gap:12px;">
+      <div class="img-box" style="height:210px;">
+        <img src="https://www.usj.co.jp/tridiondata/usj/ja/jp/files/images/gds-images/usj-gds-food-butterbeer-with-souvenir-non-alcoholic-the-wizarding-world-of-harry-potter-gallery-b.jpg" alt="バタービール" onerror="this.style.display='none';this.nextElementSibling.style.display='flex';">
+        <div class="img-ph"><div class="ico">🍺</div><div class="lbl">バタービール写真</div></div>
+      </div>
+      <div class="card gr"><div class="num">価格</div><div class="ttl">約700〜850円</div><div class="body">ジュース1杯として見ると高い</div></div>
+    </div>
+    <div style="display:flex;flex-direction:column;gap:14px;">
+      <div class="emphasis-box">中身の味だけじゃない。<br><strong>体験・世界観とセットになること</strong>で高くても買われる。</div>
+      <div class="note-box" style="flex:1;">「このカフェで飲みました」という投稿自体がコンテンツ<br>→ 動物園のソフトクリームも<strong>同じ設計ができる</strong></div>
+    </div>
+  </div>
+</div>
+<div class="frame-footer"><span class="left">株式会社ATARAYO</span><span class="right">14 / 37</span></div>
+</section>
+
+<!-- 15. 分析②問い ポップコーンバケット -->
+<section data-label="分析②問い-ポップコーン">
+<div class="frame-bar"></div><div class="frame-logo">福岡ECO動物海洋専門学校</div>
+<div class="content sm">
+  <div class="stag">事例分析 ②</div>
+  <div class="bigq">
+    <div class="qm">?</div>
+    <div class="qt">東京ディズニーシーの<strong>ポップコーンバケット</strong>、<br>中身のポップコーンは500円なのにバケット付きだと<strong>3,500円</strong>。<br>なぜそれでも売り切れるのか？<br><span style="font-size:22px;font-weight:500;color:var(--text-soft);">→ 隣の人に一言言ってみて</span></div>
+  </div>
+</div>
+<div class="frame-footer"><span class="left">株式会社ATARAYO</span><span class="right">15 / 37</span></div>
+</section>
+
+<!-- 16. 分析②答え -->
+<section data-label="分析②答え-ポップコーン">
+<div class="frame-bar"></div><div class="frame-logo">福岡ECO動物海洋専門学校</div>
+<div class="content sm">
+  <div class="stag">事例分析 ② ディズニーシー 限定ポップコーンバケット</div>
+  <div class="twocol" style="gap:20px;align-items:stretch;">
+    <div style="display:flex;flex-direction:column;gap:12px;">
+      <div class="img-box" style="flex:1;min-height:160px;">
+        <img src="https://media1.tokyodisneyresort.jp/food_menu/image/4664_1.1_1_dL95zO61.jpg" alt="ポップコーンバケット" onerror="this.style.display='none';this.nextElementSibling.style.display='flex';">
+        <div class="img-ph"><div class="ico">🍿</div><div class="lbl">限定ポップコーンバケット</div></div>
+      </div>
+      <div class="card gr"><div class="num">価格</div><div class="ttl">3,500円（バケット付き）</div><div class="body">発祥：1998年TDL15周年（日本発）→ USJ・映画館へ波及</div></div>
+    </div>
+    <div style="display:flex;flex-direction:column;gap:12px;">
+      <div class="emphasis-box"><strong>「容器」自体が目当て</strong>になると、<br>中身より容器に価値が生まれる</div>
+      <div class="note-box">おかわりシステム：初回3,500円 → 以降<strong>500円でリフィル可</strong><br>毎年限定デザインが変わる → SNS自動拡散 + リピーター化</div>
+      <div class="highlight-box">💡 コーン・カップにも<strong>動物デザイン×限定</strong>の組み合わせができる</div>
+    </div>
+  </div>
+</div>
+<div class="frame-footer"><span class="left">株式会社ATARAYO</span><span class="right">16 / 37</span></div>
+</section>
+
+<!-- 17. 分析③問い 旭山動物園 -->
+<section data-label="分析③問い-旭山">
+<div class="frame-bar"></div><div class="frame-logo">福岡ECO動物海洋専門学校</div>
+<div class="content sm">
+  <div class="stag">事例分析 ③</div>
+  <div class="bigq">
+    <div class="qm">?</div>
+    <div class="qt">旭山動物園って<strong>北海道の端っこ</strong>にあるのに、<br>なぜ<strong>全国から人が来る</strong>と思う？<br>食べ物はどんな役割を果たしてると思う？<br><span style="font-size:22px;font-weight:500;color:var(--text-soft);">→ 隣の人に一言言ってみて</span></div>
+  </div>
+</div>
+<div class="frame-footer"><span class="left">株式会社ATARAYO</span><span class="right">17 / 37</span></div>
+</section>
+
+<!-- 18. 分析③答え -->
+<section data-label="分析③答え-旭山">
+<div class="frame-bar"></div><div class="frame-logo">福岡ECO動物海洋専門学校</div>
+<div class="content sm">
+  <div class="stag">事例分析 ③ 旭山動物園 × 動物モチーフフード</div>
+  <div class="twocol" style="gap:20px;align-items:stretch;">
+    <div style="display:flex;flex-direction:column;gap:14px;">
+      <div class="card gr"><div class="ttl">「行動展示」で全国区に</div><div class="body">動物の生態を見せる展示方法。土産・フードも「動物の魅力を伝える手段」として設計</div></div>
+      <div class="emphasis-box" style="flex:1;display:flex;flex-direction:column;justify-content:center;"><strong>「食べ物は動物への愛情を<br>お金に変える手段」</strong>という設計思想</div>
+    </div>
+    <div style="display:flex;flex-direction:column;gap:14px;">
+      <div class="highlight-box">みんなは動物のことを<strong>誰より知っている</strong>。その知識が最大の武器</div>
+      <div class="note-box" style="flex:1;">おしりソフトクリーム（ホッキョクグマ）のクッキー単体がグッズになった——<br>動物好きが最も共感しやすい視点。<br>これを<strong>福岡市動植物園</strong>でやる。</div>
+    </div>
+  </div>
+</div>
+<div class="frame-footer"><span class="left">株式会社ATARAYO</span><span class="right">18 / 37</span></div>
+</section>
+
+<!-- 19. 物販・飲食の数字 -->
+<section data-label="物販飲食の数字">
+<div class="frame-bar"></div><div class="frame-logo">福岡ECO動物海洋専門学校</div>
+<div class="content sm">
+  <div class="slide-title">なぜ動物園に<span class="accent">ソフトクリーム</span>が必要なのか</div>
+  <div class="twocol" style="gap:24px;flex:1;align-items:stretch;">
+    <div style="display:flex;flex-direction:column;gap:14px;">
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;">
+        <div class="card grf" style="align-items:center;text-align:center;">
+          <div class="bnum" style="color:#FFE600;">50〜60%</div>
+          <div class="lbl" style="color:rgba(255,255,255,.85);">入場料収入</div>
+          <div style="font-size:18px;color:rgba(255,255,255,.6);margin-top:4px;">値上げが難しい</div>
+        </div>
+        <div class="card gr" style="align-items:center;text-align:center;">
+          <div class="bnum">約30%</div>
+          <div class="lbl">物販 ＋ 飲食</div>
+          <div style="font-size:18px;color:var(--brand);font-weight:700;margin-top:4px;">↑ 伸ばせる！</div>
+        </div>
+      </div>
+      <div class="card" style="gap:6px;">
+        <div class="ttl" style="color:#e53935;">⚠️ 入場料の課題</div>
+        <div class="body">来場者数に上限があり、天候・景気にも左右される。値上げもしにくい。</div>
+      </div>
+      <div style="font-size:17px;color:var(--text-mute);">出典：経済産業省「特定サービス産業実態調査」</div>
+    </div>
+    <div style="display:flex;flex-direction:column;gap:14px;">
+      <div class="emphasis-box" style="flex:1;display:flex;flex-direction:column;justify-content:center;">
+        だからこそ<strong>「来た人にもっと買ってもらう」</strong><br>場内消費の強化が<br>経営安定のカギ
+      </div>
+      <div class="highlight-box">
+        このソフトクリームは<br><strong>その解決策</strong>になれる
+      </div>
+    </div>
+  </div>
+</div>
+<div class="frame-footer"><span class="left">株式会社ATARAYO</span><span class="right">19 / 37</span></div>
+</section>
+
+<!-- 20. グループシェア -->
+<section data-label="グループシェア">
+<div class="frame-bar"></div><div class="frame-logo">福岡ECO動物海洋専門学校</div>
+<div class="content sm">
+  <div class="slide-title">グループシェア <span style="font-size:20px;font-weight:500;color:var(--text-soft);">3分</span></div>
+  <div class="cstage">
+    <div class="bigst">今見た事例で、<br>自分たちのソフトクリームに<br><span class="hl">一番使えそうな要素</span>はどれ？<br><span style="font-size:28px;font-weight:500;">理由も一言でチームに話してください</span></div>
+    <div style="font-size:21px;color:var(--text-soft);">→ 全体から2〜3チームに発言してもらいます</div>
+  </div>
+</div>
+<div class="frame-footer"><span class="left">株式会社ATARAYO</span><span class="right">20 / 37</span></div>
+</section>
+
+<!-- 21. ❹ Section -->
+<section data-label="S-機械探索">
+<div class="sec">
+  <div class="tag">42〜55分</div>
+  <h2>❹</h2>
+  <div class="desc">機械を「遊び場」として<br>探索する</div>
+</div>
+</section>
+
+<!-- 22. カルピジャーニ機械 -->
+<section data-label="カルピジャーニ機械">
+<div class="frame-bar"></div><div class="frame-logo">福岡ECO動物海洋専門学校</div>
+<div class="content sm">
+  <div class="slide-title">今日使う機械：<span class="accent">カルピジャーニ</span> ソフトクリームフリーザー</div>
+  <div class="twocol w6" style="gap:20px;flex:1;align-items:stretch;">
+    <div style="display:flex;flex-direction:column;">
+      <div class="img-box" style="flex:1;min-height:200px;">
+        <img src="https://dbe.carpigiani.com/sites/default/files/2020-04/UF-253~1.JPG" alt="カルピジャーニ機械" onerror="this.style.display='none';this.nextElementSibling.style.display='flex';">
+        <div class="img-ph"><div class="ico">🍦</div><div class="lbl">カルピジャーニ UF-253</div></div>
+      </div>
+    </div>
+    <div style="display:flex;flex-direction:column;gap:12px;">
+      <div class="card gr"><div class="ttl">カルピジャーニ（Carpigiani）</div><div class="body">イタリア・ボローニャ発。1946年創業。世界シェアNo.1の業務用ソフトクリームメーカー</div></div>
+      <div class="card"><div class="ttl">今回使用するベース液</div><div class="body"><strong>糸物語</strong>（乳脂肪分3.2%）のみ使用</div></div>
+      <div class="note-box" style="flex:1;">💡 制約があるから工夫が生まれる。この機械で「何ができるか」を次のスライドで一緒に考えよう。</div>
+    </div>
+  </div>
+</div>
+<div class="frame-footer"><span class="left">株式会社ATARAYO</span><span class="right">22 / 37</span></div>
+</section>
+
+<!-- 23. 金口の種類 -->
+<section data-label="金口の種類">
+<div class="frame-bar"></div><div class="frame-logo">福岡ECO動物海洋専門学校</div>
+<div class="time-badge">42〜55分</div>
+<div class="content sm has-badge">
+  <div class="slide-title">金口（絞り口）の種類</div>
+  <div class="cards c4" style="margin-bottom:14px;">
+    <div class="card gr" style="align-items:center;"><div class="ico">⭐</div><div class="ttl" style="text-align:center;">星型</div><div class="body" style="text-align:center;font-size:17px;">現在使用中</div></div>
+    <div class="card" style="align-items:center;"><div class="ico">⚫</div><div class="ttl" style="text-align:center;">丸型</div><div class="body" style="text-align:center;font-size:17px;">高級感が出る</div></div>
+    <div class="card" style="align-items:center;"><div class="ico">🌸</div><div class="ttl" style="text-align:center;">花型</div><div class="body" style="text-align:center;font-size:17px;">ふわっとした印象</div></div>
+    <div class="card" style="align-items:center;"><div class="ico">🍃</div><div class="ttl" style="text-align:center;">リーフ型</div><div class="body" style="text-align:center;font-size:17px;">etc.</div></div>
+  </div>
+  <div class="note-box" style="margin-top:4px;">🔍 金口は<strong>変えられる</strong>。絞り口の形が「動物のパーツ」に見えたら、それだけで商品に<strong>ストーリー</strong>が生まれる。</div>
+  <div class="emphasis-box" style="margin-top:12px;">この形、何の動物のどのパーツに見える？チームで<strong>30秒</strong>、思いつくだけ言ってみて！</div>
+  <div style="font-size:22px;color:var(--text-soft);margin-top:10px;">例：ペンギンのお腹 → 丸型 ／ ゾウの鼻 → 渦巻き型 ／ ツシマヤマネコのしっぽ → リーフ型…</div>
+</div>
+<div class="frame-footer"><span class="left">株式会社ATARAYO</span><span class="right">23 / 37</span></div>
+</section>
+
+<!-- 24. できること/できないこと -->
+<section data-label="機械の制約">
+<div class="frame-bar"></div><div class="frame-logo">福岡ECO動物海洋専門学校</div>
+<div class="content sm">
+  <div class="slide-title">カルピジャーニ機械 — できること / できないこと</div>
+  <div class="twocol" style="flex:1;gap:16px;align-items:stretch;">
+    <div class="vscol orng">
+      <div class="ttl">✅ できること</div>
+      <ul class="bul sm" style="color:#fff;">
+        <li><span style="color:#FFE600;font-weight:700;">●</span> 金口の変更で形状バリエーション</li>
+        <li><span style="color:#FFE600;font-weight:700;">●</span> トッピング・ソースの追加</li>
+        <li><span style="color:#FFE600;font-weight:700;">●</span> コーン・カップの形状・印刷の工夫</li>
+        <li><span style="color:#FFE600;font-weight:700;">●</span> チョコペン・食用色素での仕上げ</li>
+      </ul>
+    </div>
+    <div class="vscol gray">
+      <div class="ttl" style="color:#c44d03;">⛔ できないこと</div>
+      <ul class="bul sm" style="color:var(--text-soft);">
+        <li>パウダー（抹茶等）の直接混合（機械が詰まる）</li>
+        <li>複雑な混合物・固形物の注入</li>
+        <li>30秒を超える複雑な工程</li>
+        <li>糸物語以外のベース液の使用</li>
+      </ul>
+    </div>
+  </div>
+  <div class="note-box" style="margin-top:12px;font-size:21px;">壁がある分、工夫の余地も見えてくる。<strong>トッピング・容器・コンセプト</strong>で差別化できることはたくさんある。</div>
+</div>
+<div class="frame-footer"><span class="left">株式会社ATARAYO</span><span class="right">24 / 37</span></div>
+</section>
+
+<!-- 25. Q&A ワークシート版 -->
+<section data-label="QAワークシート">
+<div class="frame-bar"></div><div class="frame-logo">福岡ECO動物海洋専門学校</div>
+<div class="content sm">
+  <div class="slide-title">機械・条件 Q&amp;A <span style="font-size:20px;font-weight:500;color:var(--text-soft);">5分</span></div>
+  <div class="twocol" style="gap:20px;flex:1;">
+    <div>
+      <div class="ws">
+        <div class="ws-ttl">ワークシート「機械Q&amp;A」に記入</div>
+        <div class="row"><span class="q">チーム名：</span>___________</div>
+        <div class="row"><span class="q">質問①：</span>___________________________________________</div>
+        <div class="row"><span class="q">質問②：</span>___________________________________________</div>
+        <div class="row"><span class="q">「5/23視察で確認したい」こと：</span></div>
+        <div class="row" style="height:48px;"></div>
+      </div>
+    </div>
+    <div style="display:flex;flex-direction:column;gap:12px;">
+      <div class="steps">
+        <div class="step"><div class="n">1</div><div class="body">機械や条件で「これはどうなの？」と思ったことをワークシートに書く</div></div>
+        <div class="step"><div class="n">2</div><div class="body">チームから<strong>1問だけ</strong>先生に質問する</div></div>
+      </div>
+      <div class="note-box" style="font-size:19px;">📌 その場で答えられないものは<strong>「5/23視察で確認リスト」</strong>に追加します。<br>→ 視察で何を見るかを今日から意識しよう</div>
+    </div>
+  </div>
+</div>
+<div class="frame-footer"><span class="left">株式会社ATARAYO</span><span class="right">25 / 37</span></div>
+</section>
+
+<!-- 26. ❺ Section -->
+<section data-label="S-ペルソナ設定">
+<div class="sec">
+  <div class="tag">55〜70分</div>
+  <h2>❺</h2>
+  <div class="desc">ペルソナを設定する<br>「誰のためのソフトクリームか？」</div>
+</div>
+</section>
+
+<!-- 27. ペルソナとは -->
+<section data-label="ペルソナとは">
+<div class="frame-bar"></div><div class="frame-logo">福岡ECO動物海洋専門学校</div>
+<div class="content sm">
+  <div class="slide-title">「ペルソナ」って何？</div>
+  <div class="twocol" style="flex:1;gap:16px;align-items:stretch;">
+    <div style="display:flex;flex-direction:column;gap:12px;">
+      <div class="vscol gray">
+        <div class="ttl">❌ 弱い設定</div>
+        <div class="body">「若い女性向け」<br>「誰でも楽しめる」<br>「家族連れ全員向け」</div>
+      </div>
+      <div class="vscol orng" style="flex:1;">
+        <div class="ttl">✅ 強い設定</div>
+        <div class="body">名前・年齢・来た理由・SNSを使うかまで決める<br><strong>実在する架空の1人</strong>を具体的に作る</div>
+      </div>
+    </div>
+    <div style="display:flex;flex-direction:column;gap:14px;">
+      <div class="emphasis-box">ペルソナ（persona）＝人格<br><br>「誰のためか」が決まると、<br><strong>商品の方向性がすべてブレなくなる</strong></div>
+      <div class="note-box" style="flex:1;">ダッフィー＆フレンズが最初は売れなかった理由：「誰のため？」が不明確だったから。<br>ターゲットを絞った瞬間に売上が爆発。</div>
+    </div>
+  </div>
+</div>
+<div class="frame-footer"><span class="left">株式会社ATARAYO</span><span class="right">27 / 37</span></div>
+</section>
+
+<!-- 28. 来園者タイプ -->
+<section data-label="来園者タイプ">
+<div class="frame-bar"></div><div class="frame-logo">福岡ECO動物海洋専門学校</div>
+<div class="content sm">
+  <div class="slide-title">福岡市動植物園に来る人 — <span class="accent">4タイプ</span></div>
+  <div class="cards c2" style="flex:1;gap:12px;">
+    <div class="card"><div class="ico">👨‍👩‍👧</div><div class="ttl">家族連れ（子連れ・祖父母同伴）</div><div class="body">子どもが主役・写真をたくさん撮る・予算はシビア</div></div>
+    <div class="card"><div class="ico">💑</div><div class="ttl">カップル・デート</div><div class="body">SNS映えを意識・少し背伸びした価格でも出す</div></div>
+    <div class="card gr"><div class="ico">🐾</div><div class="ttl">動物好きの学生・若い女性</div><div class="body">推しの動物がいる・グッズ・フードへの散財あり</div></div>
+    <div class="card"><div class="ico">☕</div><div class="ttl">入場しないカフェ目当て</div><div class="body">café Rassembler（ラソンブレ）は無料エリア。普段使いのカフェとして来る</div></div>
+  </div>
+  <div class="emphasis-box" style="margin-top:12px;font-size:21px;">この中で、チームが<strong>一番喜ばせたい</strong>のは誰ですか？<strong>水族館・他の動物園は一旦置いて</strong>、<span style="color:#FFE600;">福岡市動植物園に来る人</span>で絞ってください。</div>
+</div>
+<div class="frame-footer"><span class="left">株式会社ATARAYO</span><span class="right">28 / 37</span></div>
+</section>
+
+<!-- 29. ペルソナシート -->
+<section data-label="ペルソナシート">
+<div class="frame-bar"></div><div class="frame-logo">福岡ECO動物海洋専門学校</div>
+<div class="time-badge">10分</div>
+<div class="content sm has-badge">
+  <div class="slide-title">ワークシートのペルソナ欄に記入 — チームで1人に絞る</div>
+  <div class="ws" style="flex:1;">
+    <div class="ws-ttl">チームのペルソナシート</div>
+    <div class="row"><span class="q">チーム名：</span>_______________ <span class="q" style="margin-left:40px;">担当動物（仮）：</span>_______________</div>
+    <div class="row"><span class="q">ペルソナの名前（仮）：</span>_______________ <span class="q" style="margin-left:40px;">年齢：</span>___</div>
+    <div class="row"><span class="q">来園の目的：</span>_______________________________________________</div>
+    <div class="row"><span class="q">café Rassembler（ラソンブレ）に入る理由・タイミング：</span>________________________</div>
+    <div class="row"><span class="q">食べた後、どんな気持ちになってほしいか：</span>__________________________</div>
+    <div class="row"><span class="q">SNSに投稿しそうか：</span><strong>する</strong> ・ <strong>しない</strong> ・ <strong>場合による</strong></div>
+  </div>
+  <div class="note-box" style="margin-top:10px;font-size:19px;">💡 「来場者全員向け」になっているチームは「たとえばどんな名前の人？」と具体化してみよう</div>
+</div>
+<div class="frame-footer"><span class="left">株式会社ATARAYO</span><span class="right">29 / 37</span></div>
+</section>
+
+<!-- 30. ❻ Section -->
+<section data-label="S-アイデア発散">
+<div class="sec">
+  <div class="tag">70〜84分</div>
+  <h2>❻</h2>
+  <div class="desc">個人アイデア発散<br>1人1案 × チームで5案の種を作る</div>
+</div>
+</section>
+
+<!-- 31. 飼育動物リスト -->
+<section data-label="飼育動物リスト">
+<div class="frame-bar"></div><div class="frame-logo">福岡ECO動物海洋専門学校</div>
+<div class="content sm">
+  <div class="slide-title">福岡市動植物園 — 主な飼育動物（約98種450点）</div>
+  <div class="cards c2" style="gap:10px;margin-bottom:10px;">
+    <div>
+      <div style="font-size:17px;font-weight:700;color:var(--brand);margin-bottom:6px;">🦁 哺乳類</div>
+      <div class="chips" style="gap:8px;">
+        <div class="chip alt">🐘 アジアゾウ</div><div class="chip">🦁 ライオン</div><div class="chip">🦒 キリン</div><div class="chip">🦛 カバ</div><div class="chip">🦧 オランウータン</div><div class="chip">🐆 ヒョウ</div><div class="chip">🐼 レッサーパンダ</div><div class="chip alt">🐱 ツシマヤマネコ</div>
+      </div>
+    </div>
+    <div>
+      <div style="font-size:17px;font-weight:700;color:var(--brand);margin-bottom:6px;">🐦 鳥類・その他</div>
+      <div class="chips" style="gap:8px;">
+        <div class="chip alt">🐧 フンボルトペンギン</div><div class="chip">🦩 フラミンゴ（3種）</div><div class="chip">🦜 コンゴウインコ（3種）</div><div class="chip">🦚 インドクジャク</div><div class="chip">🐐 シバヤギ</div><div class="chip">🐰 ウサギ</div>
+      </div>
+    </div>
+  </div>
+  <div class="note-box" style="margin-bottom:10px;">💡 チームの選んだ動物が被っても大丈夫。同じゾウでも切り口は全然違う。まず直感で選ぼう。</div>
+  <div class="emphasis-box" style="background:#e53935;">⛔ NGルール：このリストにない動物（パンダ・ゴリラ等）はモチーフにできません。<strong>擬人化</strong>（動物がしゃべる・立ち上がる等）もNGです。</div>
+</div>
+<div class="frame-footer"><span class="left">株式会社ATARAYO</span><span class="right">31 / 37</span></div>
+</section>
+
+<!-- 32. スケッチシート -->
+<section data-label="スケッチシート">
+<div class="frame-bar"></div><div class="frame-logo">福岡ECO動物海洋専門学校</div>
+<div class="time-badge">10分</div>
+<div class="content sm has-badge">
+  <div class="slide-title">ワークシート — 1人1案 個人スケッチ</div>
+  <div class="ws" style="flex:1;">
+    <div class="ws-ttl">アイデアスケッチシート（1人1枚・A4）</div>
+    <div class="row"><span class="q">名前：</span>_____________ <span class="q" style="margin-left:40px;">チームペルソナ（名前・年齢）：</span>_________________</div>
+    <div class="row"><span class="q">選んだ動物：</span>_____________ <span style="font-size:18px;color:#888;">→ なぜペルソナはその動物が好きそうか（1行）：__________________</span></div>
+    <div class="row" style="height:56px;"><span class="q">ソフトクリームのアイデア（ラフスケッチ ↓）：</span><span style="font-size:16px;color:#888;">下手でOK。形・色・トッピング・コーン/カップのイメージを描く</span></div>
+    <div class="row" style="height:64px;"></div>
+    <div class="row"><span class="q">コンセプト一言：</span>「○○な人が □□な気持ちになれる ソフトクリーム」</div>
+  </div>
+  <div class="note-box" style="margin-top:8px;font-size:18px;">💡 チームで動物が被っても気にしない。同じペンギンでも切り口は全然違うはず。まず出し切ろう！</div>
+</div>
+<div class="frame-footer"><span class="left">株式会社ATARAYO</span><span class="right">32 / 37</span></div>
+</section>
+
+<!-- 33. チーム内共有 -->
+<section data-label="チーム内共有">
+<div class="frame-bar"></div><div class="frame-logo">福岡ECO動物海洋専門学校</div>
+<div class="time-badge">4分</div>
+<div class="content sm has-badge">
+  <div class="slide-title">チーム内共有</div>
+  <div class="steps" style="margin-bottom:16px;">
+    <div class="step"><div class="n">1</div><div class="body">1人<strong>1分</strong>で自分のスケッチをチームメンバーに見せながら説明</div></div>
+    <div class="step"><div class="n">2</div><div class="body">聞く側は「そのペルソナが喜びそうか」「動物との接続は自然か」を考えながら聞く</div></div>
+    <div class="step"><div class="n">3</div><div class="body">感想・質問は<strong>一言だけ</strong>（深掘りは今日はしない）</div></div>
+  </div>
+  <div class="emphasis-box" style="margin-top:auto;">チームで5案並ぶとどれも違う。<strong>それでいい。</strong><br>今日はここまで。</div>
+</div>
+<div class="frame-footer"><span class="left">株式会社ATARAYO</span><span class="right">33 / 37</span></div>
+</section>
+
+<!-- 34. ❼ Section -->
+<section data-label="S-Teams課題">
+<div class="sec">
+  <div class="tag">84〜90分</div>
+  <h2>❼</h2>
+  <div class="desc">Teamsへの投稿<br>＋ 今後の3点課題</div>
+</div>
+</section>
+
+<!-- 35. Teams投稿 -->
+<section data-label="Teams投稿">
+<div class="frame-bar"></div><div class="frame-logo">福岡ECO動物海洋専門学校</div>
+<div class="time-badge">4分</div>
+<div class="content sm has-badge">
+  <div class="slide-title">スケッチを Teams に投稿しよう</div>
+  <div class="steps" style="margin-bottom:14px;">
+    <div class="step"><div class="n">1</div><div class="body">スマホでスケッチを<strong>撮影</strong>する</div></div>
+    <div class="step"><div class="n">2</div><div class="body">Teamsの<strong>所定のチャンネル</strong>に写真を投稿する</div></div>
+    <div class="step"><div class="n">3</div><div class="body">コメント欄に：「ペルソナ：○○（年齢・属性）」「選んだ動物：○○」「こだわったポイント：○○」</div></div>
+  </div>
+  <div class="note-box" style="margin-top:auto;">📩 授業後に関口さんからTeams上でコメントフィードバックを返します</div>
+</div>
+<div class="frame-footer"><span class="left">株式会社ATARAYO</span><span class="right">35 / 37</span></div>
+</section>
+
+<!-- 36. 3点課題 -->
+<section data-label="3点課題">
+<div class="frame-bar"></div><div class="frame-logo">福岡ECO動物海洋専門学校</div>
+<div class="content sm">
+  <div class="slide-title">5/23視察までの <span class="accent">3点課題</span></div>
+  <div class="cards c3" style="margin-bottom:12px;">
+    <div class="card gr"><div class="num">課題 ①</div><div class="ttl">1人ヒアリング</div><div class="body">期日：5/23視察前まで<br><br>「あのペルソナのような人」にLINE・口頭で聞く<br>「動物園カフェで何を食べたいか・いくらまで出せるか」<strong>3つ以上</strong></div></div>
+    <div class="card gr"><div class="num">課題 ②</div><div class="ttl">参考価格調査</div><div class="body">期日：5/23視察前まで<br><br>スーパー・コンビニ・雑貨屋で<strong>似た商品の値段・素材を3点</strong>調べて写真で記録</div></div>
+    <div class="card gr"><div class="num">課題 ③</div><div class="ttl">スケッチ更新</div><div class="body">期日：<strong>5/23視察当日持参</strong><br><br>Teamsに投稿したアイデアをブラッシュアップした<strong>A4手書き1枚</strong>を視察に持っていく</div></div>
+  </div>
+  <div class="emphasis-box" style="font-size:22px;">この3つを持って5/23に行けば、<strong>現場で仮説の答えが出る</strong>。持たずに行けばただの観光になる。</div>
+</div>
+<div class="frame-footer"><span class="left">株式会社ATARAYO</span><span class="right">36 / 37</span></div>
+</section>
+
+<!-- 37. スケジュール -->
+<section data-label="今後のスケジュール">
+<div class="frame-bar"></div><div class="frame-logo">福岡ECO動物海洋専門学校</div>
+<div class="content sm">
+  <div class="slide-title">今後のスケジュール</div>
+  <table class="tbl" style="flex:1;">
+    <thead><tr><th class="tc" style="width:130px;">日程</th><th>内容</th><th>学生がやること</th></tr></thead>
+    <tbody>
+      <tr class="hi"><td class="tc">5/9（今日）</td><td>関口さん授業</td><td>ペルソナ決定・動物選定・スケッチ開始</td></tr>
+      <tr><td class="tc">5/14（木）</td><td>上園先生：食品衛生・原価計算</td><td>原価率35%以下の計算方法を学ぶ</td></tr>
+      <tr><td class="tc">5/23（土）</td><td>🏛 現地視察</td><td><strong>3点課題を持参</strong>・仮説を現場で検証</td></tr>
+      <tr><td class="tc">5/23〜6/16</td><td>自主研究期間</td><td>リサーチ深化・アイデア具体化</td></tr>
+      <tr><td class="tc">6/16〜17</td><td>試作</td><td>実際に作って30秒以内かを確認</td></tr>
+      <tr><td class="tc">6/25（木）</td><td>🎤 中間プレゼン</td><td>12チーム → 約6チームに絞込</td></tr>
+      <tr><td class="tc">7/24（金）</td><td>🏆 最終プレゼン・コンペ本番</td><td>——</td></tr>
+      <tr><td class="tc">10月〜</td><td>最優秀賞の商品化・販売開始</td><td>——</td></tr>
+    </tbody>
+  </table>
+</div>
+<div class="frame-footer"><span class="left">株式会社ATARAYO</span><span class="right">37 / 37</span></div>
+</section>
+
+</deck-stage>
+<script>
+(() => {
+  const STORAGE_PREFIX = 'deck-stage:slide:';
+  const OVERLAY_HIDE_MS = 1800;
+  const pad2 = n => String(n).padStart(2, '0');
+  const stylesheet = `
+    :host{position:fixed;inset:0;display:block;background:#000;overflow:hidden;font-family:-apple-system,BlinkMacSystemFont,"Helvetica Neue",Arial,sans-serif;}
+    .stage{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;}
+    .canvas{position:relative;transform-origin:center center;flex-shrink:0;background:#fff;will-change:transform;}
+    ::slotted(*){position:absolute!important;inset:0!important;width:100%!important;height:100%!important;box-sizing:border-box!important;overflow:hidden;opacity:0;pointer-events:none;visibility:hidden;}
+    ::slotted([data-deck-active]){opacity:1;pointer-events:auto;visibility:visible;}
+    .tapzones{position:fixed;inset:0;display:flex;z-index:2147482000;pointer-events:none;}
+    .tapzone{flex:1;pointer-events:auto;-webkit-tap-highlight-color:transparent;}
+    @media(hover:hover)and(pointer:fine){.tapzones{display:none;}}
+    .overlay{position:fixed;left:50%;bottom:22px;transform:translate(-50%,6px) scale(.92);filter:blur(6px);display:flex;align-items:center;gap:4px;padding:4px;background:#000;color:#fff;border-radius:999px;font-size:12px;opacity:0;pointer-events:none;transition:opacity 260ms ease,transform 260ms cubic-bezier(.2,.8,.2,1),filter 260ms ease;transform-origin:center bottom;z-index:2147483000;user-select:none;}
+    .overlay[data-visible]{opacity:1;pointer-events:auto;transform:translate(-50%,0) scale(1);filter:blur(0);}
+    .btn{appearance:none;background:transparent;border:0;margin:0;padding:0;color:rgba(255,255,255,.72);font:inherit;cursor:default;display:inline-flex;align-items:center;justify-content:center;height:28px;min-width:28px;border-radius:999px;transition:background 140ms ease;}
+    .btn:hover{background:rgba(255,255,255,.12);color:#fff;}
+    .btn svg{width:14px;height:14px;display:block;}
+    .btn.reset{font-size:11px;font-weight:500;padding:0 10px 0 12px;gap:6px;}
+    .btn.reset .kbd{display:inline-flex;align-items:center;justify-content:center;min-width:16px;height:16px;padding:0 4px;font-family:ui-monospace,monospace;font-size:10px;color:rgba(255,255,255,.88);background:rgba(255,255,255,.12);border-radius:4px;}
+    .count{font-variant-numeric:tabular-nums;color:#fff;font-weight:500;padding:0 8px;min-width:42px;text-align:center;font-size:12px;}
+    .count .sep{color:rgba(255,255,255,.45);margin:0 3px;}
+    .count .total{color:rgba(255,255,255,.55);}
+    .divider{width:1px;height:14px;background:rgba(255,255,255,.18);margin:0 2px;}
+    @media print{:host{position:static;inset:auto;background:none;overflow:visible;}.stage{position:static;display:block;}.canvas{transform:none!important;width:auto!important;height:auto!important;background:none;}::slotted(*){position:relative!important;inset:auto!important;width:var(--deck-design-w)!important;height:var(--deck-design-h)!important;opacity:1!important;visibility:visible!important;break-after:page;}::slotted(*:last-child){break-after:auto;}.overlay,.tapzones{display:none!important;}}
+  `;
+  class DeckStage extends HTMLElement {
+    static get observedAttributes(){return['width','height','noscale'];}
+    constructor(){
+      super();
+      this._root=this.attachShadow({mode:'open'});
+      this._index=0;this._slides=[];this._notes=[];this._hideTimer=null;
+      this._storageKey=STORAGE_PREFIX+(location.pathname||'/');
+      this._onKey=this._onKey.bind(this);this._onResize=this._onResize.bind(this);
+      this._onSlotChange=this._onSlotChange.bind(this);this._onMouseMove=this._onMouseMove.bind(this);
+      this._onTapBack=this._onTapBack.bind(this);this._onTapForward=this._onTapForward.bind(this);
+    }
+    get designWidth(){return parseInt(this.getAttribute('width'),10)||1920;}
+    get designHeight(){return parseInt(this.getAttribute('height'),10)||1080;}
+    connectedCallback(){
+      this._render();this._syncPrintPageRule();
+      window.addEventListener('keydown',this._onKey);window.addEventListener('resize',this._onResize);
+      window.addEventListener('mousemove',this._onMouseMove,{passive:true});
+    }
+    disconnectedCallback(){
+      window.removeEventListener('keydown',this._onKey);window.removeEventListener('resize',this._onResize);
+      window.removeEventListener('mousemove',this._onMouseMove);
+      if(this._hideTimer)clearTimeout(this._hideTimer);
+    }
+    attributeChangedCallback(){if(this._canvas){this._canvas.style.width=this.designWidth+'px';this._canvas.style.height=this.designHeight+'px';this._canvas.style.setProperty('--deck-design-w',this.designWidth+'px');this._canvas.style.setProperty('--deck-design-h',this.designHeight+'px');this._fit();this._syncPrintPageRule();}}
+    _render(){
+      const style=document.createElement('style');style.textContent=stylesheet;
+      const stage=document.createElement('div');stage.className='stage';
+      const canvas=document.createElement('div');canvas.className='canvas';
+      canvas.style.width=this.designWidth+'px';canvas.style.height=this.designHeight+'px';
+      canvas.style.setProperty('--deck-design-w',this.designWidth+'px');canvas.style.setProperty('--deck-design-h',this.designHeight+'px');
+      const slot=document.createElement('slot');slot.addEventListener('slotchange',this._onSlotChange);
+      canvas.appendChild(slot);stage.appendChild(canvas);
+      const tz=document.createElement('div');tz.className='tapzones';tz.setAttribute('aria-hidden','true');
+      const tzb=document.createElement('div');tzb.className='tapzone tapzone--back';
+      const tzm=document.createElement('div');tzm.className='tapzone tapzone--mid';tzm.style.pointerEvents='none';
+      const tzf=document.createElement('div');tzf.className='tapzone tapzone--fwd';
+      tzb.addEventListener('click',this._onTapBack);tzf.addEventListener('click',this._onTapForward);
+      tz.append(tzb,tzm,tzf);
+      const ov=document.createElement('div');ov.className='overlay';ov.setAttribute('role','toolbar');
+      ov.innerHTML=`<button class="btn prev" type="button" title="Previous (←)"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M10 3L5 8l5 5"/></svg></button><span class="count"><span class="current">1</span><span class="sep">/</span><span class="total">1</span></span><button class="btn next" type="button" title="Next (→)"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M6 3l5 5-5 5"/></svg></button><span class="divider"></span><button class="btn reset" type="button">Reset<span class="kbd">R</span></button>`;
+      ov.querySelector('.prev').addEventListener('click',()=>this._go(this._index-1,'click'));
+      ov.querySelector('.next').addEventListener('click',()=>this._go(this._index+1,'click'));
+      ov.querySelector('.reset').addEventListener('click',()=>this._go(0,'click'));
+      this._root.append(style,stage,tz,ov);
+      this._canvas=canvas;this._slot=slot;this._overlay=ov;
+      this._countEl=ov.querySelector('.current');this._totalEl=ov.querySelector('.total');
+    }
+    _syncPrintPageRule(){
+      const id='deck-stage-print-page';let tag=document.getElementById(id);
+      if(!tag){tag=document.createElement('style');tag.id=id;document.head.appendChild(tag);}
+      tag.textContent='@page{size:'+this.designWidth+'px '+this.designHeight+'px;margin:0;}@media print{html,body{margin:0!important;padding:0!important;background:none!important;overflow:visible!important;height:auto!important;}*{-webkit-print-color-adjust:exact;print-color-adjust:exact;}}';
+    }
+    _onSlotChange(){
+      const assigned=this._slot.assignedElements({flatten:true});
+      this._slides=assigned.filter(el=>!['TEMPLATE','SCRIPT','STYLE'].includes(el.tagName));
+      this._slides.forEach((s,i)=>{
+        let label=s.getAttribute('data-label');
+        if(!label){const h=s.querySelector('h1,h2,h3');if(h)label=(h.textContent||'').trim().slice(0,40);}
+        if(!label)label='Slide';
+        s.setAttribute('data-screen-label',`${pad2(i+1)} ${label}`);
+        s.setAttribute('data-deck-slide',String(i));
+      });
+      if(this._totalEl)this._totalEl.textContent=String(this._slides.length||1);
+      if(this._index>=this._slides.length)this._index=Math.max(0,this._slides.length-1);
+      try{const raw=localStorage.getItem(this._storageKey);if(raw!=null){const n=parseInt(raw,10);if(Number.isFinite(n)&&n>=0&&n<this._slides.length)this._index=n;}}catch(e){}
+      this._applyIndex({showOverlay:false});this._fit();
+    }
+    _applyIndex({showOverlay=true}={}){
+      if(!this._slides.length)return;
+      this._slides.forEach((s,i)=>i===this._index?s.setAttribute('data-deck-active',''):s.removeAttribute('data-deck-active'));
+      if(this._countEl)this._countEl.textContent=String(this._index+1);
+      try{localStorage.setItem(this._storageKey,String(this._index));}catch(e){}
+      try{window.postMessage({slideIndexChanged:this._index},'*');}catch(e){}
+      if(showOverlay)this._flashOverlay();
+    }
+    _flashOverlay(){if(!this._overlay)return;this._overlay.setAttribute('data-visible','');if(this._hideTimer)clearTimeout(this._hideTimer);this._hideTimer=setTimeout(()=>this._overlay.removeAttribute('data-visible'),OVERLAY_HIDE_MS);}
+    _fit(){if(!this._canvas)return;if(this.hasAttribute('noscale')){this._canvas.style.transform='none';return;}const s=Math.min(window.innerWidth/this.designWidth,window.innerHeight/this.designHeight);this._canvas.style.transform=`scale(${s})`;}
+    _onResize(){this._fit();}
+    _onMouseMove(){this._flashOverlay();}
+    _onTapBack(e){e.preventDefault();this._go(this._index-1,'tap');}
+    _onTapForward(e){e.preventDefault();this._go(this._index+1,'tap');}
+    _onKey(e){
+      const t=e.target;if(t&&(t.isContentEditable||/^(INPUT|TEXTAREA|SELECT)$/.test(t.tagName)))return;
+      if(e.metaKey||e.ctrlKey||e.altKey)return;
+      let handled=true;
+      if(e.key==='ArrowRight'||e.key==='PageDown'||e.key===' ')this._go(this._index+1,'keyboard');
+      else if(e.key==='ArrowLeft'||e.key==='PageUp')this._go(this._index-1,'keyboard');
+      else if(e.key==='Home')this._go(0,'keyboard');
+      else if(e.key==='End')this._go(this._slides.length-1,'keyboard');
+      else if(e.key==='r'||e.key==='R')this._go(0,'keyboard');
+      else if(/^[0-9]$/.test(e.key)){const n=e.key==='0'?9:parseInt(e.key,10)-1;if(n<this._slides.length)this._go(n,'keyboard');}
+      else handled=false;
+      if(handled)e.preventDefault();
+    }
+    _go(i,reason='api'){
+      if(!this._slides.length)return;
+      const c=Math.max(0,Math.min(this._slides.length-1,i));
+      if(c===this._index){this._flashOverlay();return;}
+      this._index=c;this._applyIndex({showOverlay:true});
+    }
+    get index(){return this._index;}get length(){return this._slides.length;}
+    goTo(i){this._go(i,'api');}next(){this._go(this._index+1,'api');}prev(){this._go(this._index-1,'api');}reset(){this._go(0,'api');}
+  }
+  if(!customElements.get('deck-stage'))customElements.define('deck-stage',DeckStage);
+})();
+</script>
+</body>
+</html>
