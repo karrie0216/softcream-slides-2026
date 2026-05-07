@@ -1,0 +1,384 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ワークシート 5/9 — ソフトクリーム映えPJ</title>
+<style>
+:root {
+  --brand:   #E85D04;
+  --brand-dk:#c44d03;
+  --brand-lt:#fef0e8;
+  --acc:     #FFE600;
+  --acc-w:   #FFB347;
+  --text:    #1a1a1a;
+  --mute:    #666;
+  --border:  #ccc;
+  --font: 'Hiragino Kaku Gothic ProN','Yu Gothic','Noto Sans JP',sans-serif;
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+
+body{
+  font-family:var(--font);
+  color:var(--text);
+  font-size:13px;
+  line-height:1.5;
+  background:#d0d0d0;
+}
+
+/* ===== PAGE ===== */
+.page{
+  width:210mm;
+  min-height:297mm;
+  background:#fff;
+  margin:0 auto;
+  padding:7mm 13mm 15mm;
+  position:relative;
+}
+
+/* ===== PAGE HEADER ===== */
+.phd{
+  display:flex;justify-content:space-between;align-items:flex-end;
+  border-bottom:3px solid var(--brand);padding-bottom:4px;margin-bottom:7px;
+}
+.phd .school{font-size:9px;color:var(--brand);font-weight:700;margin-bottom:2px;letter-spacing:.02em;}
+.phd h1{font-size:19px;font-weight:900;line-height:1.2;}
+.phd h1 span{background:linear-gradient(transparent 60%,var(--acc) 60% 90%,transparent 90%);padding:0 .1em;}
+.phd .dinfo{font-size:9.5px;color:var(--mute);text-align:right;line-height:1.6;}
+.pnum{font-size:10px;font-weight:700;color:var(--brand);}
+
+/* ===== NAME ROW ===== */
+.nr{
+  display:flex;gap:12px;align-items:center;
+  background:var(--brand-lt);border-radius:7px;padding:5px 12px;margin-bottom:8px;
+}
+.nf{display:flex;align-items:center;gap:7px;flex:1;}
+.nl{font-size:11px;font-weight:700;color:var(--brand-dk);white-space:nowrap;}
+.ul{flex:1;border-bottom:1.5px solid var(--brand);min-height:20px;}
+
+/* ===== WORK SECTION ===== */
+.ws{margin-bottom:7px;}
+.wh{display:flex;align-items:center;gap:6px;margin-bottom:5px;flex-wrap:wrap;}
+.wbadge{background:var(--brand);color:#fff;font-weight:900;font-size:11px;padding:3px 10px;border-radius:999px;white-space:nowrap;}
+.tag-team{background:#e3f2fd;color:#1565c0;font-size:10px;font-weight:700;padding:2px 8px;border-radius:999px;white-space:nowrap;}
+.tag-solo{background:#e8f5e9;color:#2e7d32;font-size:10px;font-weight:700;padding:2px 8px;border-radius:999px;white-space:nowrap;}
+.wtime{background:var(--acc-w);color:#fff;font-size:10px;font-weight:700;padding:2px 9px;border-radius:999px;white-space:nowrap;}
+.wtitle{font-size:13px;font-weight:900;line-height:1.3;}
+.wtitle .sub{font-size:10px;font-weight:500;color:var(--mute);display:block;margin-top:1px;}
+
+/* ===== NOZZLE GRID ===== */
+.ng{display:grid;grid-template-columns:repeat(4,1fr);gap:7px;margin-bottom:8px;}
+.nc{border:1.5px solid var(--border);border-radius:8px;padding:5px 7px;text-align:center;}
+.nc.cur{border-color:var(--brand);background:var(--brand-lt);}
+.nc .nic{font-size:18px;line-height:1.25;display:block;}
+.nc .nnm{font-size:12px;font-weight:700;display:block;margin-top:1px;}
+.nc .nst{font-size:9.5px;color:var(--mute);display:block;margin-top:1px;}
+.nc .nai{font-size:9px;color:var(--brand-dk);font-weight:600;display:block;margin-top:2px;line-height:1.3;}
+
+/* ===== WRITE BOXES (div-based lines) ===== */
+.wb{border:1.5px solid var(--border);border-radius:5px;overflow:hidden;margin-top:2px;}
+.wl{height:30px;border-bottom:1px solid rgba(0,0,0,.1);background:#fff;}
+.wl:last-child{border-bottom:none;}
+
+/* ===== Q ITEMS ===== */
+.qi{display:flex;flex-direction:column;gap:3px;margin-bottom:5px;}
+.ql{display:flex;align-items:flex-start;gap:7px;}
+.qn{
+  width:20px;height:20px;border-radius:50%;
+  background:var(--brand);color:#fff;font-size:11px;font-weight:900;
+  display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:1px;
+}
+.qname{font-size:12.5px;font-weight:700;padding-top:2px;line-height:1.35;}
+.qhint{font-size:9.5px;color:var(--mute);margin-left:27px;line-height:1.45;margin-bottom:2px;}
+
+/* ===== PERSONA BLOCK ===== */
+.pb{border:1.5px solid var(--brand);border-radius:8px;overflow:hidden;}
+.ph{background:var(--brand);color:#fff;padding:6px 13px;display:flex;align-items:center;justify-content:space-between;}
+.pht{font-size:12px;font-weight:900;}
+.phs{font-size:9.5px;opacity:.88;}
+.pi{padding:7px 12px;display:flex;flex-direction:column;gap:6px;}
+
+.pfr{display:flex;gap:12px;align-items:flex-end;border-bottom:1px solid #f0d8c8;padding-bottom:5px;}
+.pfl{display:flex;align-items:center;gap:6px;}
+.pfl .fl{font-size:11px;font-weight:700;color:var(--brand-dk);white-space:nowrap;}
+.pfl .fu{border-bottom:1.5px solid var(--brand);min-height:20px;flex:1;}
+
+.pq{display:flex;flex-direction:column;gap:3px;}
+.pqn{font-size:12.5px;font-weight:700;padding-top:2px;line-height:1.35;}
+.pqh{font-size:9.5px;color:var(--mute);margin-left:27px;line-height:1.45;margin-bottom:2px;}
+
+/* ===== DIVIDER ===== */
+.div{border:none;border-top:1.5px dashed #ddd;margin:5px 0;}
+
+/* ===== SKETCH AREA ===== */
+.sk{border:2px dashed var(--brand);border-radius:8px;min-height:103mm;background:#fff;position:relative;margin-bottom:9px;}
+.sk-lbl{position:absolute;top:8px;left:11px;font-size:10px;font-weight:700;color:var(--brand);background:#fff;padding:1px 7px;border-radius:4px;}
+.sk-hint{position:absolute;bottom:8px;right:12px;font-size:9.5px;color:#ccc;}
+
+/* ===== CONCEPT BOX ===== */
+.cbx{background:var(--brand-lt);border-radius:7px;padding:8px 12px;margin-bottom:4px;}
+.cbx .cl{font-size:10.5px;font-weight:700;color:var(--brand-dk);margin-bottom:5px;}
+.crow{display:flex;align-items:center;font-size:12.5px;font-weight:700;}
+.cfil{flex:1;border-bottom:1.5px solid var(--brand);min-height:22px;margin:0 4px;}
+
+/* ===== 課題 BOX ===== */
+.hw{background:var(--brand-lt);border:2px dashed var(--brand);border-radius:9px;padding:9px 13px;margin-top:9px;}
+.hwt{font-size:12.5px;font-weight:900;color:var(--brand-dk);margin-bottom:7px;display:flex;align-items:center;gap:5px;}
+.hwl{display:flex;flex-direction:column;gap:7px;}
+.hwi{display:flex;align-items:flex-start;gap:8px;}
+.hwn{width:19px;height:19px;border-radius:50%;background:var(--brand);color:#fff;font-size:10px;font-weight:900;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:2px;}
+.hwtx{font-size:11px;line-height:1.6;}
+.hwtx strong{font-weight:700;}
+
+/* ===== PAGE FOOTER ===== */
+.pf{position:absolute;bottom:7mm;left:13mm;right:13mm;display:flex;justify-content:space-between;font-size:8.5px;color:#aaa;border-top:1px solid #eee;padding-top:4px;}
+
+/* ===== PRINT ===== */
+@media print{
+  body{background:#fff;padding:0;}
+  .page{margin:0;padding:8mm 12mm 12mm;box-shadow:none;page-break-after:always;}
+  .page:last-child{page-break-after:auto;}
+  .no-print{display:none;}
+}
+@page{size:A4;margin:0;}
+
+@media screen{
+  body{padding:20px 0;}
+  .page{box-shadow:0 4px 24px rgba(0,0,0,.13);margin-bottom:24px;}
+  .print-btn{
+    display:block;width:180px;margin:0 auto 18px;padding:10px 0;
+    background:var(--brand);color:#fff;border:none;border-radius:999px;
+    font-size:14px;font-weight:700;cursor:pointer;text-align:center;
+    font-family:var(--font);letter-spacing:.03em;
+  }
+  .print-btn:hover{background:var(--brand-dk);}
+}
+</style>
+</head>
+<body>
+
+
+<!-- ==================== PAGE 1 ==================== -->
+<div class="page">
+
+  <div class="phd">
+    <div>
+      <div class="school">福岡ECO動物海洋専門学校 × 株式会社AQUA × 福岡市動物公園　ソフトクリーム商品開発プロジェクト</div>
+      <h1>5/9 午後授業 <span>ワークシート</span></h1>
+    </div>
+    <div class="dinfo"><div class="pnum">1 / 2</div>2026年5月9日（土）</div>
+  </div>
+
+  <div class="nr">
+    <div class="nf"><div class="nl">名前</div><div class="ul"></div></div>
+    <div class="nf"><div class="nl">チーム名</div><div class="ul"></div></div>
+  </div>
+
+  <!-- WORK 01 -->
+  <div class="ws">
+    <div class="wh">
+      <span class="wbadge">WORK 01</span>
+      <span class="tag-team">チーム</span>
+      <span class="wtime">⏱ 30秒</span>
+      <div class="wtitle">金口（絞り口）の形から動物のパーツを連想しよう
+        <span class="sub">「この形、何の動物のどのパーツに見える？」→ チームで30秒、思いつくだけ言おう</span>
+      </div>
+    </div>
+
+    <div class="ng">
+      <div class="nc cur">
+        <span class="nic">★</span>
+        <span class="nnm">星型</span>
+        <span class="nst">現在使用中</span>
+        <span class="nai">縦筋入りタワー<br>→ たてがみ・うろこ</span>
+      </div>
+      <div class="nc">
+        <span class="nic">●</span>
+        <span class="nnm">丸型</span>
+        <span class="nst">つるっとなめらか</span>
+        <span class="nai">円柱タワー<br>→ からだ・頭・たまご</span>
+      </div>
+      <div class="nc">
+        <span class="nic">✿</span>
+        <span class="nnm">花型</span>
+        <span class="nst">花びら状のひだ</span>
+        <span class="nai">ひだ付きタワー<br>→ 羽根・ひれ・花</span>
+      </div>
+      <div class="nc">
+        <span class="nic">▲</span>
+        <span class="nnm">三角型</span>
+        <span class="nst">エッジ3本入り</span>
+        <span class="nai">鋭いシルエット<br>→ きば・つの・くちばし</span>
+      </div>
+    </div>
+
+    <div class="qi">
+      <div class="ql">
+        <div class="qn" style="font-size:12px;">✏</div>
+        <div class="qname">チームで出た「動物パーツ」アイデアを書き留めよう</div>
+      </div>
+      <div class="qhint">例：ペンギンのお腹 → 丸型 ／ ゾウの鼻 → 渦巻き ／ ツシマヤマネコの耳 → 三角型</div>
+      <div class="wb"><div class="wl"></div><div class="wl"></div><div class="wl"></div></div>
+    </div>
+  </div>
+
+  <hr class="div">
+
+  <!-- WORK 02 -->
+  <div class="ws">
+    <div class="wh">
+      <span class="wbadge">WORK 02</span>
+      <span class="tag-team">チーム</span>
+      <span class="wtime">⏱ 5分</span>
+      <div class="wtitle">機械・条件のQ&amp;A
+        <span class="sub">「これってどうなの？」と思ったことを付箋に書いて、チームから1問先生に出そう</span>
+      </div>
+    </div>
+    <div class="qi">
+      <div class="ql"><div class="qn">①</div><div class="qname">チームが出した質問</div></div>
+      <div class="wb"><div class="wl"></div><div class="wl"></div></div>
+    </div>
+    <div class="qi">
+      <div class="ql"><div class="qn">②</div><div class="qname">先生の回答 ／ わかったこと</div></div>
+      <div class="wb"><div class="wl"></div><div class="wl"></div><div class="wl"></div></div>
+    </div>
+  </div>
+
+  <hr class="div">
+
+  <!-- WORK 03 -->
+  <div class="ws">
+    <div class="wh">
+      <span class="wbadge">WORK 03</span>
+      <span class="tag-team">チーム</span>
+      <span class="wtime">⏱ 10分</span>
+      <div class="wtitle">チームのペルソナを1人に絞る
+        <span class="sub">「若い女性向け」では弱い。名前・年齢・来た理由まで具体的に決めよう。</span>
+      </div>
+    </div>
+
+    <div class="pb">
+      <div class="ph">
+        <div class="pht">🦁 チームのペルソナシート</div>
+        <div class="phs">「来場者全員向け」は弱い。架空でも「実在する1人」として書こう。</div>
+      </div>
+      <div class="pi">
+
+        <div class="pfr">
+          <div class="pfl" style="flex:2;">
+            <span class="fl">ペルソナの名前（仮）</span><div class="fu"></div>
+          </div>
+          <div class="pfl" style="flex:0 0 auto;">
+            <span class="fl">年齢</span><div class="fu" style="width:48px;"></div>
+          </div>
+          <div class="pfl" style="flex:1.5;">
+            <span class="fl">担当動物（仮）</span><div class="fu"></div>
+          </div>
+        </div>
+
+        <div class="pq">
+          <div class="ql"><div class="qn">①</div><div class="pqn">来園の目的　<span style="font-size:9.5px;font-weight:400;color:var(--mute);">なぜ来ている？誰と一緒に？</span></div></div>
+          <div class="wb"><div class="wl"></div><div class="wl"></div></div>
+        </div>
+
+        <div class="pq">
+          <div class="ql"><div class="qn">②</div><div class="pqn">café Rassembler（ラソンブレ）に入る理由・タイミング</div></div>
+          <div class="wb"><div class="wl"></div><div class="wl"></div></div>
+        </div>
+
+        <div class="pq">
+          <div class="ql"><div class="qn">③</div><div class="pqn">食べた後、どんな気持ちになってほしいか</div></div>
+          <div class="wb"><div class="wl"></div><div class="wl"></div></div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <div class="pf">
+    <span>福岡ECO動物海洋専門学校 × AQUA × 福岡市動物公園 ソフトクリーム商品開発PJ</span>
+    <span>2026.5.9　1/2</span>
+  </div>
+</div>
+
+<!-- ==================== PAGE 2 ==================== -->
+<div class="page">
+
+  <div class="phd">
+    <div>
+      <div class="school">福岡ECO動物海洋専門学校 × 株式会社AQUA × 福岡市動物公園　ソフトクリーム商品開発プロジェクト</div>
+      <h1>5/9 午後授業 <span>アイデアスケッチシート</span></h1>
+    </div>
+    <div class="dinfo"><div class="pnum">2 / 2</div>2026年5月9日（土）</div>
+  </div>
+
+  <div class="nr">
+    <div class="nf"><div class="nl">名前</div><div class="ul"></div></div>
+    <div class="nf"><div class="nl">チーム名（参照用）</div><div class="ul"></div></div>
+  </div>
+
+  <!-- WORK 04 -->
+  <div class="ws">
+    <div class="wh">
+      <span class="wbadge">WORK 04</span>
+      <span class="tag-solo">個人</span>
+      <span class="wtime">⏱ 10分</span>
+      <div class="wtitle">1人1案 ─ 個人アイデアスケッチ
+        <span class="sub">チームのペルソナをベースに、自分のアイデアを1つ形にしよう。絵が下手でもOK！</span>
+      </div>
+    </div>
+
+    <div style="display:grid;grid-template-columns:1fr 1fr 1.6fr;gap:9px;margin-bottom:10px;">
+      <div class="pq">
+        <div class="ql"><div class="qn">①</div><div class="pqn">チームのペルソナ<br><span style="font-size:10.5px;font-weight:400;">（名前・年齢）</span></div></div>
+        <div class="wb"><div class="wl"></div><div class="wl"></div></div>
+      </div>
+      <div class="pq">
+        <div class="ql"><div class="qn">②</div><div class="pqn">選んだ動物</div></div>
+        <div class="wb"><div class="wl"></div><div class="wl"></div></div>
+      </div>
+      <div class="pq">
+        <div class="ql"><div class="qn">③</div><div class="pqn">なぜペルソナはその動物が好きそうか</div></div>
+        <div class="wb"><div class="wl"></div><div class="wl"></div></div>
+      </div>
+    </div>
+
+    <div class="sk">
+      <div class="sk-lbl">✏️ ラフスケッチ ─ 形・色・トッピング・コーン/カップのイメージを描こう</div>
+      <div class="sk-hint">下手でOK。伝わればいい！</div>
+    </div>
+
+    <div class="cbx">
+      <div class="cl">📝 コンセプト一言</div>
+      <div class="crow">「<div class="cfil"></div>な人が、<div class="cfil"></div>な気持ちになれるソフトクリーム」</div>
+    </div>
+  </div>
+
+  <hr class="div">
+
+  <div class="hw">
+    <div class="hwt">📌 5/23 視察までの 3点課題（必ずやってくること！）</div>
+    <div class="hwl">
+      <div class="hwi">
+        <div class="hwn">①</div>
+        <div class="hwtx"><strong>1人ヒアリング</strong>　期日：5/23視察前まで<br>「ペルソナのような人」にLINE・口頭で聞く ─「動物園カフェで何を食べたいか・いくらまで出せるか」3つ以上</div>
+      </div>
+      <div class="hwi">
+        <div class="hwn">②</div>
+        <div class="hwtx"><strong>参考価格調査</strong>　期日：5/23視察前まで<br>スーパー・コンビニ・雑貨屋で似た商品の値段・素材を3点調べて写真で記録</div>
+      </div>
+      <div class="hwi">
+        <div class="hwn">③</div>
+        <div class="hwtx"><strong>スケッチ更新</strong>　期日：<strong>5/23視察当日持参</strong><br>このシートをブラッシュアップしたA4手書き1枚を視察に持っていく</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="pf">
+    <span>福岡ECO動物海洋専門学校 × AQUA × 福岡市動物公園 ソフトクリーム商品開発PJ</span>
+    <span>2026.5.9　2/2</span>
+  </div>
+</div>
+
+</body>
+</html>
